@@ -39,6 +39,10 @@ body {
     object-position: center;
 }
 
+.description {
+    display: none;
+}
+
 .active {
     display: block;
 }
@@ -70,9 +74,6 @@ button {
     right: 0;
     color: white;
     text-align: right;
+    z-index: 10;
 }
 
-h2,
-p {
-    display: none;
-}

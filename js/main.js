@@ -27,46 +27,73 @@ const images = [
 ];
 
 const sliderContainer = document.querySelector(".slider-container");
-const titleContainer = document.querySelector('.title-container')
+const titleContainer = document.querySelector('.title-container');
+
 const prevBtn = document.getElementById("prev-btn");
 const nextBtn = document.getElementById("next-btn");
-let currentImg = 0;
+let currentEl = 0
 
 //stampare le immagini nella pagina 
-images.forEach(function (element, index){
-    console.log(element.image, element.title)
-    console.log(index)
-
-    const imgEl = document.createElement ('img');
+images.forEach(function (element, index) {
+    //immagini
+    const imgEl = document.createElement('img');
     imgEl.classList.add('slider-img');
     imgEl.src = element.image;
 
-    const titleEl = document.createElement('h2');
-    titleEl.textContent = element.title;
+    //titlo e descrizione
+    const descriptionEl = document.createElement('div');
+    descriptionEl.classList.add('description')
+    descriptionEl.innerHTML = `<h2>${element.title}</h2>
+                               <p>${element.text}</p>`
 
-    const textEl = document.createElement('p');
-    textEl.textContent = element.text;
-
-    if (index === currentImg) {
+    if (index === currentEl) {
         imgEl.classList.add('active');
-        titleEl.classList.add('active');
-        textEl.classList.add('active');
+        descriptionEl.classList.add('active');
     }
 
     sliderContainer.append(imgEl);
-    titleContainer.append(titleEl, textEl)
-    // sliderContainer.innerHTML += `<img src="${element.image}" class="slider-img ${active}">`
+    titleContainer.append(descriptionEl);
 })
 
-prevBtn.addEventListener ("click", function(){
+//Button Prev
+prevBtn.addEventListener("click", function () {
+    if (currentEl - 1 < 0) {
+        currentEl = images.length;
+    }
 
+    currentEl--;
 
-
+    removeClassActive();
+    addClassActive();
 });
 
-nextBtn.addEventListener ("click", function(){
+//Button Next
+nextBtn.addEventListener("click", function () {
+    if (currentEl + 1 >= images.length) {
+        currentEl = -1
+    }
 
+    currentEl++;
 
-
+    removeClassActive();
+    addClassActive();
 });
 
+function removeClassActive() {
+    const activeEl = sliderContainer.querySelectorAll('.active');
+
+    activeEl.forEach(element => {
+        element.classList.remove('active');
+    })
+}
+
+function addClassActive() {
+    const imgEl = sliderContainer.querySelectorAll("img");
+    const descriptionEl = titleContainer.querySelectorAll("div");
+
+    const nextImg = imgEl[currentEl];
+    const nextDescription = descriptionEl[currentEl];
+
+    nextImg.classList.add("active");
+    nextDescription.classList.add("active");
+} 
