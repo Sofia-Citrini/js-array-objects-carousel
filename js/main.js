@@ -28,6 +28,7 @@ const images = [
 
 const sliderContainer = document.querySelector(".slider-container");
 const titleContainer = document.querySelector('.title-container');
+const tnContainer = document.querySelector(".row");
 
 const prevBtn = document.getElementById("prev-btn");
 const nextBtn = document.getElementById("next-btn");
@@ -46,13 +47,20 @@ images.forEach(function (element, index) {
     descriptionEl.innerHTML = `<h2>${element.title}</h2>
                                <p>${element.text}</p>`
 
+    // thumbnails
+    const tnEl = document.createElement('div');
+    tnEl.classList.add('col')
+    tnEl.innerHTML = `<img class="thumbnail-img" src="${element.image}">`
+
     if (index === currentEl) {
         imgEl.classList.add('active');
         descriptionEl.classList.add('active');
+        tnEl.classList.add('thumbnail-img-active');
     }
 
     sliderContainer.append(imgEl);
     titleContainer.append(descriptionEl);
+    tnContainer.append(tnEl);
 })
 
 //Button Prev
@@ -81,19 +89,30 @@ nextBtn.addEventListener("click", function () {
 
 function removeClassActive() {
     const activeEl = sliderContainer.querySelectorAll('.active');
+    const activeTnEl = tnContainer.querySelectorAll('.thumbnail-img-active');
 
     activeEl.forEach(element => {
         element.classList.remove('active');
     })
+
+    activeTnEl.forEach(element => {
+        element.classList.remove('thumbnail-img-active');
+    })
+
+    // activeEl.classList.remove('active')
+    // activeTnEl. classList.remove('thumbnail-img-active')
 }
 
 function addClassActive() {
     const imgEl = sliderContainer.querySelectorAll("img");
     const descriptionEl = titleContainer.querySelectorAll("div");
+    const imgTnEl = tnContainer.querySelectorAll("img");
 
     const nextImg = imgEl[currentEl];
     const nextDescription = descriptionEl[currentEl];
+    const nextimgTnEl = imgTnEl[currentEl];
 
     nextImg.classList.add("active");
     nextDescription.classList.add("active");
+    nextimgTnEl.classList.add("thumbnail-img-active");
 } 
